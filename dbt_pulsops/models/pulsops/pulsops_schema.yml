@@ -1,0 +1,57 @@
+
+version: 2
+
+models:
+    - name: profit_by_store_dly
+      description: '{{ doc("profit_by_store_dly") }}'
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: profit_by_store_wkly
+      description: '{{ doc("profit_by_store_wkly") }}'
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: sale_by_cat_dly
+      description: '{{ doc("sale_by_cat_dly") }}'
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: sale_by_cat_wkly
+      description: '{{ doc("sale_by_cat_wkly") }}'
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: sale_by_store_dly
+      description: '{{ doc("sale_by_store_dly") }}'
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
+
+    - name: sale_by_store_wkly
+      description: '{{ doc("sale_by_store_wkly") }}'
+      columns:
+          - name: id
+            description: "The primary key for this table"
+            tests:
+                - unique
+                - not_null
