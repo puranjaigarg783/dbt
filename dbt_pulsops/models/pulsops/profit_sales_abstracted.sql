@@ -5,6 +5,9 @@
 -----abstracted form of profit_sales_dq in order to minimise snowflake processing time-----------------------------------------
 
 ------abstractions(not meant for prod)--------------------------------------------------
+
+--------------------------Generates the Data Cube for a Single Store (ID = 'AAAAAAAAAABAAAAA'). Vary 'rank' to generate for other stores(alphabetical)----------------------------------------------------------------
+
 with final as (
 with profit_by_store_dly_abstracted as (
 with profit_by_store_dly_abstracted_temp as (
