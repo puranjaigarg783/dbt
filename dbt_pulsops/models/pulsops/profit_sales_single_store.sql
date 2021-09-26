@@ -52,7 +52,7 @@ select D_DATE,D_DATE_SK,D_WEEK_SEQ, rank() over (
 with profit_sale_wkly as (
 select a.WEEKID,a.STOREID,a.NETPROFIT,b.SALECOUNT from profit_by_store_wkly_abstracted a
 inner join sale_by_store_wkly_abstracted b
-on a.WEEKID = b.WEEKID
+on a.WEEKID = b.WEEKID and a.STOREID = b.STOREID
 )
 
 select a.WEEKID,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_wkly a
@@ -69,7 +69,7 @@ on a.SOLDDATE = b.SOLDDATE
 
 select b.D_DATE_SK,a.SOLDDATE,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_dly a
 inner join date_rank b 
-on a.SOLDDATE = b.D_DATE
+on a.SOLDDATE = b.D_DATE and a.STOREID = b.STOREID
 )
 
 select 'Weekly' as Frequency,
@@ -86,7 +86,7 @@ select 'Weekly' as Frequency,
        a.NETPROFIT as Metric_1_Value_Current,
        b.NETPROFIT as Metric_1_Value_Comparison,
       'Net Sales' as Metric_2_name,
-       null as Metric_1_Direction,
+       null as Metric_2_Direction,
        null as Metric_2_Type,
        a.SALECOUNT as Metric_2_Value_Current,
        b.SALECOUNT as Metric_2_Value_Comparison

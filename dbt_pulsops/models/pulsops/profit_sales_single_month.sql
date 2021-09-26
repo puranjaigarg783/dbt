@@ -67,7 +67,7 @@ select 'Weekly' as Frequency,
        a.NETPROFIT as Metric_1_Value_Current,
        b.NETPROFIT as Metric_1_Value_Comparison,
       'Net Sales' as Metric_2_name,
-       null as Metric_1_Direction,
+       null as Metric_2_Direction,
        null as Metric_2_Type,
        a.SALECOUNT as Metric_2_Value_Current,
        b.SALECOUNT as Metric_2_Value_Comparison
