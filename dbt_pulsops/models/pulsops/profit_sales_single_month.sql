@@ -22,7 +22,7 @@ select * from "SNOWFLAKE_SAMPLE_DATA"."TPCDS_SF10TCL"."DATE_DIM" where D_YEAR = 
 )
 
 , nss_weekly_lim as (
-    select * from "DEMO_DB"."PUBLIC"."SALE_BY_STORE_WKLY" where WEEKID between 5335 and 5340
+    select * from "DEMO_DB"."PUBLIC"."SALE_BY_STORE_WKLY" where WEEKID between 5335 and 5336
   )
 
 , nss_daily_lim as (
@@ -33,7 +33,7 @@ select * from "SNOWFLAKE_SAMPLE_DATA"."TPCDS_SF10TCL"."DATE_DIM" where D_YEAR = 
  with profit_sale_wkly as (
  select a.WEEKID,a.STOREID,a.NETPROFIT,b.SALECOUNT from nps_weekly_lim a
  inner join nss_weekly_lim b
- on a.WEEKID = b.WEEKID
+ on a.WEEKID = b.WEEKID and a.STOREID = b.STOREID
  )
 
  select a.WEEKID,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_wkly a
@@ -45,7 +45,7 @@ select * from "SNOWFLAKE_SAMPLE_DATA"."TPCDS_SF10TCL"."DATE_DIM" where D_YEAR = 
  with profit_sale_dly as (
  select a.SOLDDATE,a.STOREID,a.NETPROFIT,b.SALECOUNT from nps_daily_lim a
  inner join nss_daily_lim b
- on a.SOLDDATE = b.SOLDDATE
+ on a.SOLDDATE = b.SOLDDATE and a.STOREID = b.STOREID
  )
 
  select b.D_DATE_SK,a.SOLDDATE,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_dly a
