@@ -2,7 +2,8 @@
 {{ config(materialized='table') }}
 
 
---------------------------Generates the Data Cube for a Single Store (ID = 'AAAAAAAAAABAAAAA'). Vary 'rank' to generate for other stores(alphabetical)----------------------------------------------------------------
+---------------Generates the Data Cube for a Single Store (ID = 'AAAAAAAAAABAAAAA'). Vary 'rank' to generate for other stores(alphabetical)----------------------------------------------------------------
+
 
 with profit_by_store_dly_abstracted as (
 with profit_by_store_dly_abstracted_temp as (
@@ -59,19 +60,18 @@ select min(b.D_DATE) as DATE_MON,a.WEEKID,a.STOREID,a.NETPROFIT,a.SALECOUNT
   inner join date_rank b
   on a.WEEKID = b.D_WEEK_SEQ
   group by (a.STOREID,a.NETPROFIT,a.SALECOUNT,a.WEEKID)
-
 )
 
 , profit_sale_dly_wkly as (
 with profit_sale_dly as (
 select a.SOLDDATE,a.STOREID,a.NETPROFIT,b.SALECOUNT from profit_by_store_dly_abstracted a
 inner join sale_by_store_dly_abstracted b
-on a.SOLDDATE = b.SOLDDATE
+on a.SOLDDATE = b.SOLDDATE and a.STOREID = b.STOREID
 )
 
 select b.D_DATE_SK,a.SOLDDATE,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_dly a
 inner join date_rank b 
-on a.SOLDDATE = b.D_DATE and a.STOREID = b.STOREID
+on a.SOLDDATE = b.D_DATE
 )
 
 select 'Weekly' as Frequency,
@@ -121,6 +121,13 @@ select 'Daily' as Frequency,
 from profit_sale_dly_wkly a
 inner join profit_sale_dly_wkly b 
 on (a.STOREID=b.STOREID and a.day_of_week=b.day_of_week and a.D_WEEK_SEQ = b.D_WEEK_SEQ -1)
+
+-----------------------------------------------------------
+
+
+
+
+
 
 
 
