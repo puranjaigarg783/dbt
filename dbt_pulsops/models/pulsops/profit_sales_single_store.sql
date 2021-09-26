@@ -54,7 +54,12 @@ inner join sale_by_store_wkly_abstracted b
 on a.WEEKID = b.WEEKID and a.STOREID = b.STOREID
 )
 
-select * from profit_sale_wkly
+select min(b.D_DATE) as DATE_MON,a.WEEKID,a.STOREID,a.NETPROFIT,a.SALECOUNT
+  from profit_sale_wkly a
+  inner join date_rank b
+  on a.WEEKID = b.D_WEEK_SEQ
+  group by (a.STOREID,a.NETPROFIT,a.SALECOUNT,a.WEEKID)
+
 )
 
 , profit_sale_dly_wkly as (
@@ -71,8 +76,8 @@ on a.SOLDDATE = b.D_DATE and a.STOREID = b.STOREID
 
 select 'Weekly' as Frequency,
        'Prev_Week' as Comparison_Type,
-       a.WEEKID as TimePeriodCurrent,
-       b.WEEKID as TimePeriodComparison,
+       a.DATE_MON as TimePeriodCurrent,
+       b.DATE_MON as TimePeriodComparison,
        null as DimIndex,
        null as Dim1_ID,
        'Store_ID' as Dim1_Name,
@@ -96,8 +101,8 @@ union all
 
 select 'Daily' as Frequency,
        'Prev_Week' as Comparison_Type,
-       a.D_DATE_SK as TimePeriodCurrent,
-       b.D_DATE_SK as TimePeriodComparison,
+       a.SOLDDATE as TimePeriodCurrent,
+       b.SOLDDATE as TimePeriodComparison,
        null as DimIndex,
        null as Dim1_ID,
        'Store_ID' as Dim1_Name,
