@@ -36,9 +36,7 @@ select * from "SNOWFLAKE_SAMPLE_DATA"."TPCDS_SF10TCL"."DATE_DIM" where D_YEAR = 
  on a.WEEKID = b.WEEKID and a.STOREID = b.STOREID
  )
 
- select a.WEEKID,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_wkly a
- inner join date_rank b 
- on a.WEEKID = b.D_WEEK_SEQ
+ select * from profit_sale_wkly_wkly
  )
 
  , profit_sale_dly_wkly as (
@@ -74,7 +72,7 @@ select 'Weekly' as Frequency,
 
  from profit_sale_wkly_wkly a
  inner join profit_sale_wkly_wkly b 
- on (a.STOREID=b.STOREID and a.D_WEEK_SEQ = b.D_WEEK_SEQ -1)
+ on (a.STOREID=b.STOREID and a.WEEKID = b.WEEKID -1)
 
  union all 
 

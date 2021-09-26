@@ -8,7 +8,6 @@
 
 --------------------------Generates the Data Cube for a Single Store (ID = 'AAAAAAAAAABAAAAA'). Vary 'rank' to generate for other stores(alphabetical)----------------------------------------------------------------
 
-with final as (
 with profit_by_store_dly_abstracted as (
 with profit_by_store_dly_abstracted_temp as (
 select STOREID,SOLDDATE,NETPROFIT,rank() over (
@@ -89,9 +88,6 @@ union all
 select a.STOREID, a.D_DATE_SK as tp_current,b.D_DATE_SK as tp_comparison, (a.NETPROFIT-b.NETPROFIT) as profit_change, (a.SALECOUNT-b.SALECOUNT) as sales_change from profit_sale_dly_wkly a
 inner join profit_sale_dly_wkly b 
 on (a.STOREID=b.STOREID and a.day_of_week=b.day_of_week and a.D_WEEK_SEQ = b.D_WEEK_SEQ -1)
-  )
-  
-select distinct * from final
 
 
 

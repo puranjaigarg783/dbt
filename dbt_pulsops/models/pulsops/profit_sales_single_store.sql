@@ -4,7 +4,6 @@
 
 --------------------------Generates the Data Cube for a Single Store (ID = 'AAAAAAAAAABAAAAA'). Vary 'rank' to generate for other stores(alphabetical)----------------------------------------------------------------
 
-with final as (
 with profit_by_store_dly_abstracted as (
 with profit_by_store_dly_abstracted_temp as (
 select STOREID,SOLDDATE,NETPROFIT,rank() over (
@@ -55,9 +54,7 @@ inner join sale_by_store_wkly_abstracted b
 on a.WEEKID = b.WEEKID and a.STOREID = b.STOREID
 )
 
-select a.WEEKID,a.STOREID,a.NETPROFIT,a.SALECOUNT, b.D_WEEK_SEQ, b.day_of_week from profit_sale_wkly a
-inner join date_rank b 
-on a.WEEKID = b.D_WEEK_SEQ
+select * from profit_sale_wkly
 )
 
 , profit_sale_dly_wkly as (
@@ -93,7 +90,7 @@ select 'Weekly' as Frequency,
 
 from profit_sale_wkly_wkly a
 inner join profit_sale_wkly_wkly b 
-on (a.STOREID=b.STOREID and a.D_WEEK_SEQ = b.D_WEEK_SEQ -1)
+on (a.STOREID=b.STOREID and a.WEEKID = b.WEEKID -1)
 
 union all 
 
@@ -119,9 +116,7 @@ select 'Daily' as Frequency,
 from profit_sale_dly_wkly a
 inner join profit_sale_dly_wkly b 
 on (a.STOREID=b.STOREID and a.day_of_week=b.day_of_week and a.D_WEEK_SEQ = b.D_WEEK_SEQ -1)
-  )
-  
-select distinct * from final
+
 
 
 
